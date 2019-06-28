@@ -18,5 +18,10 @@ namespace IPScanner
             this.HostName = _HostName;
             this.MacAddress = _MacAddress;
         }
+
+        public Device(Device device):this(device.IpAddress, device.HostName, device.MacAddress)
+        {
+
+        }
     }
 }

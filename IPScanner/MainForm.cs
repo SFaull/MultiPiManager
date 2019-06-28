@@ -148,6 +148,21 @@ namespace IPScanner
             lblDeviceInfo.Text = sshManager.SendCommand("hostnamectl");
             gbDeviceInfo.Visible = true;
             //MessageBox.Show(response);
+
+            var newDevice = new LinuxDevice(selectedDevice);
+            newDevice.SetCredentials(txtUsername.Text, txtPassword.Text);
+            deviceList.AddLinuxDevice(newDevice);
+
+            // example of how to iterate over the list and determin which devices are linux devices
+            /*
+            foreach(var dev in deviceList.Devices)
+            {
+                var tmp = dev as LinuxDevice;
+
+                Console.WriteLine("type? --> {0}", dev.GetType());
+            }
+            */
+
         }
     }
 }

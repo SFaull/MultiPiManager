@@ -27,6 +27,25 @@ namespace IPScanner
             return true;
         }
 
+        /// <summary>
+        /// Add a linux device, this will replace an existing generic device
+        /// </summary>
+        /// <param name="linuxdevice"></param>
+        /// <returns></returns>
+        public bool AddLinuxDevice(LinuxDevice linuxdevice)
+        {
+            for(int i=0; i< Devices.Count; i++)
+            {
+                if (Devices[i].MacAddress.Equals(linuxdevice.MacAddress))
+                {
+                    Devices[i] = linuxdevice;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
         public Device GetDeviceByIpAddress(string ip)
         {
             foreach(Device dev in Devices)
