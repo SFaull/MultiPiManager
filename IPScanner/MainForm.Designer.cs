@@ -47,6 +47,10 @@
             this.txtHostname = new System.Windows.Forms.TextBox();
             this.gbDeviceInfo = new System.Windows.Forms.GroupBox();
             this.lblDeviceInfo = new System.Windows.Forms.Label();
+            this.lblSerialNumber = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblOperatingSystem = new System.Windows.Forms.Label();
             this.gbConnect.SuspendLayout();
             this.gbDeviceInfo.SuspendLayout();
             this.SuspendLayout();
@@ -219,10 +223,14 @@
             // 
             // gbDeviceInfo
             // 
+            this.gbDeviceInfo.Controls.Add(this.label7);
+            this.gbDeviceInfo.Controls.Add(this.lblOperatingSystem);
+            this.gbDeviceInfo.Controls.Add(this.label8);
+            this.gbDeviceInfo.Controls.Add(this.lblSerialNumber);
             this.gbDeviceInfo.Controls.Add(this.lblDeviceInfo);
             this.gbDeviceInfo.Location = new System.Drawing.Point(12, 501);
             this.gbDeviceInfo.Name = "gbDeviceInfo";
-            this.gbDeviceInfo.Size = new System.Drawing.Size(940, 170);
+            this.gbDeviceInfo.Size = new System.Drawing.Size(940, 223);
             this.gbDeviceInfo.TabIndex = 13;
             this.gbDeviceInfo.TabStop = false;
             this.gbDeviceInfo.Text = "Device Information";
@@ -231,10 +239,47 @@
             // lblDeviceInfo
             // 
             this.lblDeviceInfo.AutoSize = true;
-            this.lblDeviceInfo.Location = new System.Drawing.Point(18, 37);
+            this.lblDeviceInfo.Location = new System.Drawing.Point(17, 79);
             this.lblDeviceInfo.Name = "lblDeviceInfo";
-            this.lblDeviceInfo.Size = new System.Drawing.Size(0, 13);
+            this.lblDeviceInfo.Size = new System.Drawing.Size(80, 13);
             this.lblDeviceInfo.TabIndex = 13;
+            this.lblDeviceInfo.Text = "-- Device Info --";
+            // 
+            // lblSerialNumber
+            // 
+            this.lblSerialNumber.AutoSize = true;
+            this.lblSerialNumber.Location = new System.Drawing.Point(118, 27);
+            this.lblSerialNumber.Name = "lblSerialNumber";
+            this.lblSerialNumber.Size = new System.Drawing.Size(16, 13);
+            this.lblSerialNumber.TabIndex = 14;
+            this.lblSerialNumber.Text = "---";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(22, 27);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(53, 13);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "Serial No.";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(22, 40);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(90, 13);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Operating System";
+            // 
+            // lblOperatingSystem
+            // 
+            this.lblOperatingSystem.AutoSize = true;
+            this.lblOperatingSystem.Location = new System.Drawing.Point(118, 40);
+            this.lblOperatingSystem.Name = "lblOperatingSystem";
+            this.lblOperatingSystem.Size = new System.Drawing.Size(16, 13);
+            this.lblOperatingSystem.TabIndex = 16;
+            this.lblOperatingSystem.Text = "---";
             // 
             // MainForm
             // 
@@ -277,6 +322,10 @@
         private System.Windows.Forms.GroupBox gbDeviceInfo;
         private System.Windows.Forms.Label lblDeviceInfo;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblSerialNumber;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblOperatingSystem;
     }
 }
 

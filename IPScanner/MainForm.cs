@@ -205,6 +205,8 @@ namespace IPScanner
              * 
              * */
 
+            lblSerialNumber.Text = sshManager.GetSerial();
+            lblOperatingSystem.Text = sshManager.GetOS();
 
             gbDeviceInfo.Visible = true;
 

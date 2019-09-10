@@ -90,5 +90,15 @@ namespace IPScanner
             }
         }
 
+        public string GetSerial()
+        {
+            return SendCommand("cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2");
+        }
+
+        public string GetOS()
+        {
+            return SendCommand("hostnamectl | grep \"Operating System\" | cut -d ' ' -f 5,6,7,8,9,10,11,12,13,14,15,16");
+        }
+
     }
 }
