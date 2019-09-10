@@ -25,11 +25,19 @@ namespace IPScanner
 
         public static object Deserialize(Type t)
         {
-            var serializer = new XmlSerializer(t);
-            StreamReader reader = new StreamReader(FilePath);
-            var obj = serializer.Deserialize(reader);
-            reader.Close();
-            return obj;
+            try
+            {
+                var serializer = new XmlSerializer(t);
+                StreamReader reader = new StreamReader(FilePath);
+                var obj = serializer.Deserialize(reader);
+                reader.Close();
+                return obj;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            return null;
         }
 
 

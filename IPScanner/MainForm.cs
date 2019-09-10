@@ -171,10 +171,12 @@ namespace IPScanner
 
             // import the saved devices from the xml file
             var data = (List<Device>)XMLManager.Deserialize(typeof(List<Device>));
-            foreach(var dev in data)
+
+            if (data != null)
             {
-                savedDeviceList.AddDevice(dev);
-            }            
+                foreach (var dev in data)
+                    savedDeviceList.AddDevice(dev);
+            }
 
             nscan.DeviceFound += NetworkScanner_OnDeviceFound;
             nscan.ScanComplete += NetworkScanner_OnScanComplete;
