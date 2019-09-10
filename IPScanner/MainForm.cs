@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -20,7 +21,8 @@ namespace IPScanner
     public partial class MainForm : Form
     {
         NetworkScanner nscan;
-        DeviceList deviceList;
+        DeviceList discoveredDeviceList;
+        DeviceList savedDeviceList;
         Device selectedDevice;
 
         public MainForm()
@@ -34,6 +36,7 @@ namespace IPScanner
             lstLocal.Columns.Add("IP", 100);
             lstLocal.Columns.Add("HostName", 200);
             lstLocal.Columns.Add("MAC Address", 300);
+            lstLocal.Columns.Add("Device Type", 400);
             lstLocal.Sorting = SortOrder.Descending;
 
 
@@ -66,19 +69,51 @@ namespace IPScanner
                 // Logic for Ping Reply Success
                 ListViewItem item;
 
-                string[] arr = new string[3];
+                string[] arr = new string[4];
 
                 //store all three parameters to be shown on ListView
                 arr[0] = device.IpAddress;
                 arr[1] = device.HostName;
                 arr[2] = device.MacAddress;
+                arr[3] = GetDeviceTypeFromHostname(device.HostName);
 
                 item = new ListViewItem(arr);
 
                 lstLocal.Items.Add(item);
-                deviceList.AddDevice(device);
+                discoveredDeviceList.AddDevice(device);
             });
 
+        }
+
+        /// <summary>
+        /// Crude lookup table for identifying the device type
+        /// </summary>
+        /// <param name="hostName"></param>
+        /// <returns></returns>
+        private string GetDeviceTypeFromHostname(string hostName)
+        {
+            if (hostName == null)
+                return "";
+
+            hostName = hostName.ToUpper();
+
+            if (hostName.Contains("RASPBERRY") || hostName.Contains("OCTOPI"))
+                return "Raspberry Pi";
+            if (hostName.Contains("PC") || hostName.Contains("DESKTOP") || hostName.Contains("LAPTOP") || hostName.Contains("SERVER"))
+                return "PC";
+            if (hostName.Contains("ESP"))
+                return "ESP Microcontroller";
+            if (hostName.Contains("TV"))
+                return "Television";
+            if (hostName.Contains("ONEPLUS") || hostName.Contains("GALAXY") || hostName.Contains("ANDROID") || hostName.Contains("PHONE"))
+                return "Smartphone";
+            if (hostName.Contains("ROUTER"))
+                return "Router";
+            if (hostName.Contains("NAS"))
+                return "NAS Drive";
+
+
+            return "";
         }
 
         /// <summary>
@@ -105,7 +140,7 @@ namespace IPScanner
                 if (rectangle.Contains(e.Location))
                 {
                     string ip = listview.GetItemAt(e.Location.X, e.Location.Y).Text;
-                    SelectDevice(deviceList.GetDeviceByIpAddress(ip));
+                    SelectDevice(discoveredDeviceList.GetDeviceByIpAddress(ip));
                     return;
                 }
             }
@@ -119,6 +154,8 @@ namespace IPScanner
             if (gbConnect.Visible == false)
                 gbConnect.Visible = true;
 
+            // TODO: check to see if this exists as a saved device and load the username/password/friendly name
+
             txtIpAddress.Text = selectedDevice.IpAddress;
             txtHostname.Text = selectedDevice.HostName;
             txtMacAddress.Text = selectedDevice.MacAddress;
@@ -127,8 +164,18 @@ namespace IPScanner
         private void MainForm_Shown(object sender, EventArgs e)
         {
             selectedDevice = null;
-            deviceList = new DeviceList();
+            savedDeviceList = new DeviceList();
+            discoveredDeviceList = new DeviceList();
             nscan = new NetworkScanner();
+
+
+            // import the saved devices from the xml file
+            var data = (List<Device>)XMLManager.Deserialize(typeof(List<Device>));
+            foreach(var dev in data)
+            {
+                savedDeviceList.AddDevice(dev);
+            }            
+
             nscan.DeviceFound += NetworkScanner_OnDeviceFound;
             nscan.ScanComplete += NetworkScanner_OnScanComplete;
             nscan.StartScan();
@@ -146,12 +193,22 @@ namespace IPScanner
             }
 
             lblDeviceInfo.Text = sshManager.SendCommand("hostnamectl");
+            /* Other commands which may be useful:
+             * 
+             * $ lsusb - shows list of USB devices connected
+             * 
+             * 
+             * 
+             * */
+
+
             gbDeviceInfo.Visible = true;
-            //MessageBox.Show(response);
+
 
             var newDevice = new LinuxDevice(selectedDevice);
             newDevice.SetCredentials(txtUsername.Text, txtPassword.Text);
-            deviceList.AddLinuxDevice(newDevice);
+            discoveredDeviceList.AddLinuxDevice(newDevice);
+            selectedDevice = newDevice;
 
             // example of how to iterate over the list and determin which devices are linux devices
             /*
@@ -164,5 +221,15 @@ namespace IPScanner
             */
 
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            // Add the device to the list of saved devices and write to the xml file
+            savedDeviceList.AddDevice(selectedDevice);
+            var xmlString = XMLManager.Serialize(savedDeviceList.Devices, true);
+            MessageBox.Show(xmlString);
+        }
+
+
     }
 }

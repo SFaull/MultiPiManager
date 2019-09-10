@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace IPScanner
 {
-    class LinuxDevice : Device
+    public class LinuxDevice : Device
     {
         public bool ValidCredentials { get { return (!string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password)); } }
         public string Username { get; set; }
+        public string Password { get; set; }
 
-        private string Password { get; set; }
+        public LinuxDevice()
+        {
+            // do nothing, please be sure to set the properties explicitly
+        }
 
         public LinuxDevice(string _IpAddress, string _HostName, string _MacAddress) : base(_IpAddress, _HostName, _MacAddress)
         {

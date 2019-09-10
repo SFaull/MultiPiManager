@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace IPScanner
 {
-    class Device
+    [System.Xml.Serialization.XmlInclude(typeof(LinuxDevice))]
+    public class Device
     {
-        public string IpAddress { get; private set; }
-        public string MacAddress { get; private set; }
-        public string HostName { get; private set; }
+        public string FriendlyName { get; set; }
+        public string IpAddress { get; set; }
+        public string MacAddress { get; set; }
+        public string HostName { get; set; }
+
+        public Device()
+        {
+            // do nothing, please be sure to set the properties explicitly
+        }
 
         public Device(string _IpAddress, string _HostName, string _MacAddress)
         {
@@ -21,7 +29,7 @@ namespace IPScanner
 
         public Device(Device device):this(device.IpAddress, device.HostName, device.MacAddress)
         {
-
+            // do nothing
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IPScanner
 {
-    class DeviceList
+    public class DeviceList
     {
         public ObservableCollection<Device> Devices;
 
@@ -26,6 +26,7 @@ namespace IPScanner
             Devices.Add(device);
             return true;
         }
+
 
         /// <summary>
         /// Add a linux device, this will replace an existing generic device

@@ -20,9 +20,11 @@ namespace IPScanner
         public bool Initialise(string host, string username, string password)
         {
             bool connected = false;
+            try
+            {
 
-            // Setup Credentials and Server Information
-            ConnNfo = new ConnectionInfo(host, 22, username,
+                // Setup Credentials and Server Information
+                ConnNfo = new ConnectionInfo(host, 22, username,
                 new AuthenticationMethod[]{
 
                 // Pasword based Authentication
@@ -34,11 +36,9 @@ namespace IPScanner
                     new PrivateKeyFile(@"..\openssh.key","passphrase")
                 }),
                 */
-                }
-            );
+                });
 
-            try
-            {
+
                 using (var sshclient = new SshClient(ConnNfo))
                 {
                     sshclient.Connect();
