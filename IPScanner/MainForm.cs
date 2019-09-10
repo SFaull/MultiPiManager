@@ -97,7 +97,7 @@ namespace IPScanner
 
             hostName = hostName.ToUpper();
 
-            if (hostName.Contains("RASPBERRY") || hostName.Contains("OCTOPI"))
+            if (hostName.Contains("RASPBERRY") || hostName.Contains("OCTOPI") || hostName.Contains("RPI"))
                 return "Raspberry Pi";
             if (hostName.Contains("PC") || hostName.Contains("DESKTOP") || hostName.Contains("LAPTOP") || hostName.Contains("SERVER"))
                 return "PC";
@@ -109,6 +109,8 @@ namespace IPScanner
                 return "Smartphone";
             if (hostName.Contains("ROUTER"))
                 return "Router";
+            if (hostName.Contains("HIKVISION"))
+                return "Camera";
             if (hostName.Contains("NAS"))
                 return "NAS Drive";
 
