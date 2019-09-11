@@ -18,7 +18,16 @@ namespace IPScanner
 
         public bool AddDevice(Device device)
         {
-            bool containsItem = Devices.Any(item => item.IpAddress == device.IpAddress);
+            bool containsItem = true;
+
+            try
+            {
+                containsItem = Devices.Any(item => item.IpAddress == device.IpAddress);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
 
             if (containsItem)
                 return false;
